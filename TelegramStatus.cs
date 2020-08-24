@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+/*
+    Works with /status command sent to the bot.
+    Takes some time to respond.
+*/
+
+using System.Collections.Generic;
 using UnityEngine;
 
 using System.Linq;
@@ -36,7 +41,7 @@ namespace Oxide.Plugins
         {
             webrequest.Enqueue("https://api.telegram.org/bot" + BotID + ":" + BotToken + "/sendMessage?chat_id=" + id + "&text=" + message, null, (code, response) =>
             {
-                Puts("Done");
+                Puts("#" + id + " Message sent");
             }, this, RequestMethod.GET);            
         }
 
@@ -79,10 +84,10 @@ namespace Oxide.Plugins
                         string chat_id = (string)msgs.SelectToken("result[0].message.chat.id");
                         string message = (string)msgs.SelectToken("result[0].message.text");
 
-                        if (msg_id != last)
+                        if (msg_id != last & message == "/status")
                         {
                             last = msg_id;
-                            SendMessage(chat_id, "🌎 XenPare ► Rust (xenpare.net:28015): " + online + " players online and " + sleepers + " sleepers.");    
+                            SendMessage(chat_id, "🌎 Current server statistic: " + online + " players online and " + sleepers + " sleepers.");    
                         }              
                     }
                     catch (Exception ex)
