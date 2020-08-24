@@ -27,11 +27,12 @@ namespace Oxide.Plugins
             _plugin = this;
         }
 
+        string groupID = "<Steam Group ID>";
         void OnPlayerConnected(BasePlayer pl)
         {
             string id = pl.UserIDString;
             string name = pl.displayName;
-            webrequest.Enqueue("http://steamcommunity.com/gid/35419163/memberslistxml/?xml=1", null, (code, response) =>
+            webrequest.Enqueue("http://steamcommunity.com/gid/" + groupID + "/memberslistxml/?xml=1", null, (code, response) =>
             {
                 bool isAdmin = response.Contains(id);
                 if (isAdmin && (!pl.IsAdmin))
